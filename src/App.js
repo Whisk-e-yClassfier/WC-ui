@@ -1,7 +1,7 @@
 import "./App.css";
 import { FormControl, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -23,11 +23,17 @@ function App() {
       .post("http://localhost:5000/image", formData)
       .then((res) => {
         console.log(res.data);
-        setLoading(false);
         setResultUrl(res.data.image_url);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  useEffect(() => {
+    setResultUrl("");
+  }, [fileName]);
 
   return (
     <div className="App">
